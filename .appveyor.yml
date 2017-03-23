@@ -36,5 +36,6 @@ build_script:
 - cmake -G "%CMAKE_GENERATOR%" -A "%CMAKE_ARCH%" -DPYBIND11_WERROR=ON
 - set MSBuildLogger="C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 - cmake --build . --config Release --target pytest -- /v:m /logger:%MSBuildLogger%
+- cmake --build . --config Release --target cpptest -- /v:m /logger:%MSBuildLogger%
 - cmake --build . --config Release --target test_cmake_build -- /v:m /logger:%MSBuildLogger%
-on_failure: if exist "tests\test_cmake_build" type tests\test_cmake_build\*.log
+on_failure: if exist "tests\test_cmake_build" type tests\test_cmake_build\*.log*
