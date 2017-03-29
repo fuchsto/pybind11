@@ -2,6 +2,7 @@ find_package(Catch 1.8.2 REQUIRED)
 
 add_executable(test_embedded
   catch.cpp
+  test_eval.cpp
   test_interpreter.cpp
 )
 target_include_directories(test_embedded PRIVATE ${CATCH_INCLUDE_DIR})
