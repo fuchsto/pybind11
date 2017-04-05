@@ -185,6 +185,14 @@ add_custom_command(TARGET pybind11_tests POST_BUILD
   COMMAND ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tools/libsize.py
   $<TARGET_FILE:pybind11_tests> ${CMAKE_CURRENT_BINARY_DIR}/sosize-$<TARGET_FILE_NAME:pybind11_tests>.txt)
 
+# Test embedding the interpreter (CPython only, skip PyPy). Provides the `cpptest` target.
+if(NOT ${PYTHON_MODULE_EXTENSION} MATCHES "pypy")
+  add_subdirectory(test_embedded)
+else()
+  add_custom_target(cpptest)  # Dummy target on PyPy. Embedding is not supported.
+endif()
+add_dependencies(check cpptest)
+
 # Test CMake build using functions and targets from subdirectory or installed location
 add_custom_target(test_cmake_build)
 if(NOT CMAKE_VERSION VERSION_LESS 3.1)
@@ -223,6 +231,9 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.1)
 
   pybind11_add_build_test(subdirectory_function)
   pybind11_add_build_test(subdirectory_target)
+  if(NOT ${PYTHON_MODULE_EXTENSION} MATCHES "pypy")
+    pybind11_add_build_test(subdirectory_embedded)
+  endif()
 
   if(PYBIND11_INSTALL)
     add_custom_target(mock_install ${CMAKE_COMMAND}
@@ -232,6 +243,9 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.1)
 
     pybind11_add_build_test(installed_function INSTALL)
     pybind11_add_build_test(installed_target INSTALL)
+    if(NOT ${PYTHON_MODULE_EXTENSION} MATCHES "pypy")
+      pybind11_add_build_test(installed_embedded INSTALL)
+    endif()
   endif()
 endif()
 

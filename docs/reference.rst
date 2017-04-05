@@ -58,6 +58,21 @@ Passing extra arguments to ``def`` or ``class_``
 .. doxygengroup:: annotations
     :members:
 
+Embedding the interpreter
+=========================
+
+.. doxygendefine:: PYBIND11_ADD_EMBEDDED_MODULE
+
+.. doxygenfunction:: initialize_interpreter
+
+.. doxygenfunction:: finalize_interpreter
+
+.. doxygenstruct:: scoped_interpreter
+
+.. doxygenfunction:: main
+
+.. doxygenfunction:: globals
+
 Python build-in functions
 =========================
 
